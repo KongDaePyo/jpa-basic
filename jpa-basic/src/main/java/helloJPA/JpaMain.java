@@ -85,13 +85,18 @@ public class JpaMain {
 //            em.flush(); // flush 발생되니 바로 Insert Query 바로 실행
 //            System.out.println("=============");
 
-            Member memberA = new Member(200L, "member200");
-            em.persist(memberA);
-            Member memberB = new Member(200L, "member200");
-            em.persist(memberB); /* 현재까진 DB에 반영 X */
+//            Member memberA = new Member(200L, "member200");
+//            em.persist(memberA);
+//            Member memberB = new Member(200L, "member200");
+//            em.persist(memberB); /* 현재까진 DB에 반영 X */
+//
+//            List<Member> result = em.createQuery("select m from Member as m", Member.class)
+//                            .getResultList(); /* Commit 되지 않은 상태에서 조회 JPQL 실행 ? 에러 즉 JPQL은 flush 해준다. */
 
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                            .getResultList(); /* Commit 되지 않은 상태에서 조회 JPQL 실행 ? 에러 즉 JPQL은 flush 해준다. */
+            Member member = em.find(Member.class, 150L); /* 영속 상태 */
+            member.setName("AAAAA"); /* dirty checking 해준다. */
+
+            em.detach(member); /* JPA에서 관리 안한다. 준영속 상태이다. 즉 commit을 해도 Update 되지 않는다. */
 
 
             tx.commit();
