@@ -51,8 +51,37 @@ public class JpaMain {
 //            em.persist(member); /* persist가 쿼리문을 날리는게 아니다. */
 //            System.out.println("after");
 
+//            Member member = new Member();
+//            member.setId(105L);
+//            member.setName("Kong");
+//
+//            em.persist(member);
+//
+//            Member findMember = em.find(Member.class, 101L); /* 조회 쿼리문을 DB에 날리는게 아닌 1차 캐시에서 조회하기 때문에 쿼리문 X */
+
+
+//            Member findMember1 = em.find(Member.class, 101L);
+//            Member findMember2 = em.find(Member.class, 101L); /* findMember1 즉 첫 번째 조회 할 때는 쿼리문을 날리고 두 번째는 1차캐시에서 조회하니 쿼리문을 안 날린다. */
+//
+//            System.out.println("reuslt = " + (findMember1 == findMember2)); // 1차 캐시로 인하여 동일성 보장
+
+
+//            Member member1 = new Member(150L, "A");
+//            Member member2 = new Member(160L, "B");
+//
+//            em.persist(member1);
+//            em.persist(member2); /* persist는 1차 캐시, 쓰기 지연 저장소에 쌓이는 것. */
+//            System.out.println("===============");
+//
+//
+//            tx.commit(); /* tx.commit() 실행 시 쓰기 지연 저장소에 저장 된 쿼리문 날린다. 따라서 ======= 뒤에 쿼리문 실행되는 것 옵션을 통해 버퍼링 (10개 쌓이면 쿼리문을 보내는 식) 가능 */
+
+            Member findMember = em.find(Member.class, 150L);
+            findMember.setName("Cong1"); /* 값만 변경해도 Update 쿼리문을 실행한다. 즉 값을 수정할 때는 persist를 호출 안 해도 된다. */
+
 
             tx.commit();
+
         } catch (Exception e) {
             tx.rollback();
         } finally {
