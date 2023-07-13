@@ -76,8 +76,22 @@ public class JpaMain {
 //
 //            tx.commit(); /* tx.commit() 실행 시 쓰기 지연 저장소에 저장 된 쿼리문 날린다. 따라서 ======= 뒤에 쿼리문 실행되는 것 옵션을 통해 버퍼링 (10개 쌓이면 쿼리문을 보내는 식) 가능 */
 
-            Member findMember = em.find(Member.class, 150L);
-            findMember.setName("Cong1"); /* 값만 변경해도 Update 쿼리문을 실행한다. 즉 값을 수정할 때는 persist를 호출 안 해도 된다. */
+//            Member findMember = em.find(Member.class, 150L);
+//            findMember.setName("Cong1"); /* 값만 변경해도 Update 쿼리문을 실행한다. 즉 값을 수정할 때는 persist를 호출 안 해도 된다. */
+
+//            Member member = new Member(200L, "member200");
+//            em.persist(member);
+//
+//            em.flush(); // flush 발생되니 바로 Insert Query 바로 실행
+//            System.out.println("=============");
+
+            Member memberA = new Member(200L, "member200");
+            em.persist(memberA);
+            Member memberB = new Member(200L, "member200");
+            em.persist(memberB); /* 현재까진 DB에 반영 X */
+
+            List<Member> result = em.createQuery("select m from Member as m", Member.class)
+                            .getResultList(); /* Commit 되지 않은 상태에서 조회 JPQL 실행 ? 에러 즉 JPQL은 flush 해준다. */
 
 
             tx.commit();
