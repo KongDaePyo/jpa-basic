@@ -98,6 +98,11 @@ public class JpaMain {
 //
 //            em.detach(member); /* JPA에서 관리 안한다. 준영속 상태이다. 즉 commit을 해도 Update 되지 않는다. */
 
+            Member member = new Member();
+            member.setUsername("CAAAA");
+
+            em.persist(member);
+
             tx.commit();
 
         } catch (Exception e) {
