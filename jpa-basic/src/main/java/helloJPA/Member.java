@@ -13,6 +13,7 @@ public class Member {
     private Long id;
     /* @Column(name = "USERNAME") Table과 동일하다. 컬럼명 강제로 줄 수 있다.*/
     private String name;
+    private int age;
 
     public Member() {} // JPA는 내부적으로 리플렉션 ? 같은 걸 사용하기 때문에 동적으로 객체를 생성해야함 -> 기본 생성자가 하나 있어야 한다.
 
