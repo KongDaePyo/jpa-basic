@@ -97,9 +97,8 @@ public class JpaMain {
 //            member.setName("AAAAA"); /* dirty checking 해준다. */
 //
 //            em.detach(member); /* JPA에서 관리 안한다. 준영속 상태이다. 즉 commit을 해도 Update 되지 않는다. */
-//
-//
-//            tx.commit();
+
+            tx.commit();
 
         } catch (Exception e) {
             tx.rollback();
