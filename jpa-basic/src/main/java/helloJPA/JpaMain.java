@@ -117,28 +117,55 @@ public class JpaMain {
 //            Long findTeamId = findMember.getTeamId();
 //            Team findTeam = em.find(Team.class, findTeamId); /* 연관관계가 없기 때문에 계속 조회해야 한다. */
 
+//            Team team = new Team();
+//            team.setName("TeamA");
+//            em.persist(team);
+//
+//            Member member = new Member();
+//            member.setName("member1");
+//            member.setTeam(team); /* JPA에서 알아서 team 객체의 PK 값을 Member 객체의 FK 값으로 사용한다. */
+//            em.persist(member);
+//
+//            em.flush();
+//            em.clear(); /* 1차 캐시가 아닌 강제로 DB에서 값을 조회하기 위해 사용 */
+
+//            Member findMember = em.find(Member.class, member.getId());
+//            Team findTeam = findMember.getTeam();
+//
+//            System.out.println("findTeam = " + findTeam.getName() + " : " + findTeam.getId());
+
+//            List<Member> members = findMember.getTeam().getMembers();
+//
+//            for (Member m : members) {
+//                System.out.println("m = " + m.getName());
+//            }
+
+//            Member member = new Member();
+//            member.setName("member1");
+//            member.setTeam();
+//            em.persist(member);
+//
+//            Team team = new Team();
+//            team.setName("TeamA");
+//            team.getMembers().add(member);
+//            em.persist(team); /* 매핑시 실수) 연관관계 주인은 Member.Team 이니 값을 입력해줘야 한다.  */
+
+
             Team team = new Team();
             team.setName("TeamA");
             em.persist(team);
 
             Member member = new Member();
             member.setName("member1");
-            member.setTeam(team); /* JPA에서 알아서 team 객체의 PK 값을 Member 객체의 FK 값으로 사용한다. */
-            em.persist(member);
+            member.setTeam(team);
+            em.persist(member); /* 연관관계 주인한테 값을 주면 정상적 즉 양방향 매핑은 항상 양쪽다 값을 넣어줘야 한다. */
+
 
             em.flush();
-            em.clear(); /* 1차 캐시가 아닌 강제로 DB에서 값을 조회하기 위해 사용 */
+            em.clear();
 
-            Member findMember = em.find(Member.class, member.getId());
-//            Team findTeam = findMember.getTeam();
-//
-//            System.out.println("findTeam = " + findTeam.getName() + " : " + findTeam.getId());
-
-            List<Member> members = findMember.getTeam().getMembers();
-
-            for (Member m : members) {
-                System.out.println("m = " + m.getName());
-            }
+            Team findTeam = em.find(Team.class, team.getId());
+            List<Member> members = findTeam.getMembers(); /* 만약 em.flush, clear를 안 하고 찾을 경우에 1차 캐시에서 찾게 되므로 가져올 수 없음 따라서 양쪽 다 값을 넣어줘야 한다. */
 
             tx.commit();
 
