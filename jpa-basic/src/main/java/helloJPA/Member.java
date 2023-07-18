@@ -8,13 +8,13 @@ import java.util.Date;
 @SequenceGenerator(name = "member_seq_generator", sequenceName = "member_seq")
 public class Member {
 
-    @Id /* PK가 어떤 필드인지 명시해야 한다. */
+//    @Id /* PK가 어떤 필드인지 명시해야 한다. */
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_seq_generator") /* IDENTITY vs SEQUENCE ? */
-    private Long id;
-
-    @Column(name = "NAME", nullable = false) /* Table과 동일하다. 컬럼명 강제로 줄 수 있다. */
-    private String username;
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_seq_generator") /* IDENTITY vs SEQUENCE ? */
+//    private Long id;
+//
+//    @Column(name = "NAME", nullable = false) /* Table과 동일하다. 컬럼명 강제로 줄 수 있다. */
+//    private String username;
 
 //    private Integer age;
 //
@@ -33,6 +33,21 @@ public class Member {
 //    @Transient /* DB와 매핑 X */
 //    private int temp;
 
+    @Id
+    @GeneratedValue
+    @Column(name = "MEMBER_ID")
+    private Long id;
+
+    @Column(name = "USERNAME")
+    private String name;
+
+//    @Column(name = "TEAM_ID")
+//    private Long teamId; /* 객체를 가져오기 때문에 객체지향적 X */
+
+    @ManyToOne /* Member 입장에선 여러명, Team 입장에선 한 개 */
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
+
     public Member() {} // JPA는 내부적으로 리플렉션 ? 같은 걸 사용하기 때문에 동적으로 객체를 생성해야함 -> 기본 생성자가 하나 있어야 한다.
 
     public Long getId() {
@@ -43,13 +58,37 @@ public class Member {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    //    public Long getTeamId() {
+//        return teamId;
+//    }
+//
+//    public void setTeamId(Long teamId) {
+//        this.teamId = teamId;
+//    }
+
+    //    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
 
 //    public Integer getAge() {
 //        return age;

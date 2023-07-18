@@ -98,10 +98,41 @@ public class JpaMain {
 //
 //            em.detach(member); /* JPA에서 관리 안한다. 준영속 상태이다. 즉 commit을 해도 Update 되지 않는다. */
 
-            Member member = new Member();
-            member.setUsername("CAAAA");
+//            Member member = new Member();
+//            member.setUsername("CAAAA");
+//
+//            em.persist(member);
 
+//            Team team = new Team();
+//            team.setName("TeamA");
+//            em.persist(team);
+//
+//            Member member = new Member();
+//            member.setName("member1");
+//            member.setTeamId(team.getId());
+//            em.persist(member);
+//
+//            Member findMember = em.find(Member.class, member.getId());
+//
+//            Long findTeamId = findMember.getTeamId();
+//            Team findTeam = em.find(Team.class, findTeamId); /* 연관관계가 없기 때문에 계속 조회해야 한다. */
+
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
+
+            Member member = new Member();
+            member.setName("member1");
+            member.setTeam(team); /* JPA에서 알아서 team 객체의 PK 값을 Member 객체의 FK 값으로 사용한다. */
             em.persist(member);
+
+            em.flush();
+            em.clear(); /* 1차 캐시가 아닌 강제로 DB에서 값을 조회하기 위해 사용 */
+
+            Member findMember = em.find(Member.class, member.getId());
+            Team findTeam = findMember.getTeam();
+
+            System.out.println("findTeam = " + findTeam.getName() + " : " + findTeam.getId());
 
             tx.commit();
 
