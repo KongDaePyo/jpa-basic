@@ -27,6 +27,10 @@ public class Order {
     @Enumerated(EnumType.STRING) /* Enum 타입은 EnumType.STRING으로 명시해줘야 한다. */
     private OrderStatus status;
 
+    @OneToOne
+    @JoinColumn(name = "DELIVERY_ID")
+    private Delivery delivery;
+
     public Long getId() {
         return id;
     }
