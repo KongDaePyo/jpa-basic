@@ -130,9 +130,15 @@ public class JpaMain {
             em.clear(); /* 1차 캐시가 아닌 강제로 DB에서 값을 조회하기 위해 사용 */
 
             Member findMember = em.find(Member.class, member.getId());
-            Team findTeam = findMember.getTeam();
+//            Team findTeam = findMember.getTeam();
+//
+//            System.out.println("findTeam = " + findTeam.getName() + " : " + findTeam.getId());
 
-            System.out.println("findTeam = " + findTeam.getName() + " : " + findTeam.getId());
+            List<Member> members = findMember.getTeam().getMembers();
+
+            for (Member m : members) {
+                System.out.println("m = " + m.getName());
+            }
 
             tx.commit();
 
