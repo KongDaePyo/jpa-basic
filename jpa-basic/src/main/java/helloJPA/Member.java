@@ -1,7 +1,9 @@
 package helloJPA;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity /* JPA가 관리 */
 /* @Table(name = "USER")  Table 이름을 강제로 줄 수 있다. 즉 여기서 USER는 DB Table */
@@ -51,6 +53,13 @@ public class Member {
     @OneToOne /* 일대일 */
     @JoinColumn(name = "LOCKER_ID")
     private Locker locker;
+
+//    @ManyToMany /* 다대다 */
+//    @JoinTable(name = "MEMBER_PRODUCT") /* 다대다는 JOINTABLE을 해야한다. */
+//    private List<Product> products = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberProduct> memberProducts = new ArrayList<>();
 
     public Member() {} // JPA는 내부적으로 리플렉션 ? 같은 걸 사용하기 때문에 동적으로 객체를 생성해야함 -> 기본 생성자가 하나 있어야 한다.
 
