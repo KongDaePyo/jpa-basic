@@ -14,8 +14,12 @@ public class Team {
 
     private String name;
 
-    @OneToMany(mappedBy = "team") /* 하나의 Team에 여러 명의 Member 가능, 누구랑 매핑되어 있는지 mappedBy, 주인이 아님을 나타냄 */
-    private List<Member> members = new ArrayList<>(); /* ArrayList로 초기화 해주는게 관례 (null 발생 X) */
+//    @OneToMany(mappedBy = "team") /* 하나의 Team에 여러 명의 Member 가능, 누구랑 매핑되어 있는지 mappedBy, 주인이 아님을 나타냄 다대일 */
+//    private List<Member> members = new ArrayList<>(); /* ArrayList로 초기화 해주는게 관례 (null 발생 X) */
+
+    @OneToMany
+    @JoinColumn(name = "TEAM_ID")
+    private List<Member> members = new ArrayList<>(); /* 일대다 Team.members.add를 하면 MEMBER 테이블이 업데이트가 된다. 즉 권장 X */
 
     public Team() {
     }

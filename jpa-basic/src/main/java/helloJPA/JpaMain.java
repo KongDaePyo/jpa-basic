@@ -151,21 +151,33 @@ public class JpaMain {
 //            em.persist(team); /* 매핑시 실수) 연관관계 주인은 Member.Team 이니 값을 입력해줘야 한다.  */
 
 
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
+//            Team team = new Team();
+//            team.setName("TeamA");
+//            em.persist(team);
+//
+//            Member member = new Member();
+//            member.setName("member1");
+//            member.setTeam(team);
+//            em.persist(member); /* 연관관계 주인한테 값을 주면 정상적 즉 양방향 매핑은 항상 양쪽다 값을 넣어줘야 한다. */
+//
+//
+//            em.flush();
+//            em.clear();
+//
+//            Team findTeam = em.find(Team.class, team.getId());
+//            List<Member> members = findTeam.getMembers(); /* 만약 em.flush, clear를 안 하고 찾을 경우에 1차 캐시에서 찾게 되므로 가져올 수 없음 따라서 양쪽 다 값을 넣어줘야 한다. */
+
 
             Member member = new Member();
             member.setName("member1");
-            member.setTeam(team);
-            em.persist(member); /* 연관관계 주인한테 값을 주면 정상적 즉 양방향 매핑은 항상 양쪽다 값을 넣어줘야 한다. */
 
+            em.persist(member);
 
-            em.flush();
-            em.clear();
+            Team team = new Team();
+            team.setName("teamA");
+            team.getMembers().add(member); /* 여기서 TEAM 테이블이 update가 되는게 아닌 MEMBER 테이블이 update 된다. */
 
-            Team findTeam = em.find(Team.class, team.getId());
-            List<Member> members = findTeam.getMembers(); /* 만약 em.flush, clear를 안 하고 찾을 경우에 1차 캐시에서 찾게 되므로 가져올 수 없음 따라서 양쪽 다 값을 넣어줘야 한다. */
+            em.persist(team);
 
             tx.commit();
 

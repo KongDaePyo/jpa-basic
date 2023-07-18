@@ -44,9 +44,11 @@ public class Member {
 //    @Column(name = "TEAM_ID")
 //    private Long teamId; /* 객체를 가져오기 때문에 객체지향적 X */
 
-    @ManyToOne /* Member 입장에선 여러명, Team 입장에선 한 개 */
-    @JoinColumn(name = "TEAM_ID")
-    private Team team;
+//    @ManyToOne /* Member 입장에선 여러명, Team 입장에선 한 개 다대일 */
+//    @JoinColumn(name = "TEAM_ID")
+//    private Team team;
+
+
 
     public Member() {} // JPA는 내부적으로 리플렉션 ? 같은 걸 사용하기 때문에 동적으로 객체를 생성해야함 -> 기본 생성자가 하나 있어야 한다.
 
@@ -66,13 +68,13 @@ public class Member {
         this.name = name;
     }
 
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
+//    public Team getTeam() {
+//        return team;
+//    }
+//
+//    public void setTeam(Team team) {
+//        this.team = team;
+//    }
 
     //    public Long getTeamId() {
 //        return teamId;
