@@ -168,16 +168,34 @@ public class JpaMain {
 //            List<Member> members = findTeam.getMembers(); /* 만약 em.flush, clear를 안 하고 찾을 경우에 1차 캐시에서 찾게 되므로 가져올 수 없음 따라서 양쪽 다 값을 넣어줘야 한다. */
 
 
-            Member member = new Member();
-            member.setName("member1");
+//            Member member = new Member();
+//            member.setName("member1");
+//
+//            em.persist(member);
+//
+//            Team team = new Team();
+//            team.setName("teamA");
+//            team.getMembers().add(member); /* 여기서 TEAM 테이블이 update가 되는게 아닌 MEMBER 테이블이 update 된다. */
+//
+//            em.persist(team);
 
-            em.persist(member);
+            Movie movie = new Movie();
 
-            Team team = new Team();
-            team.setName("teamA");
-            team.getMembers().add(member); /* 여기서 TEAM 테이블이 update가 되는게 아닌 MEMBER 테이블이 update 된다. */
+            movie.setDirector("C5ng");
+            movie.setActor("Kong");
+            movie.setName("lego");
+            movie.setPrice(10000);
 
-            em.persist(team);
+            em.persist(movie); /* Movie는 Item을 상속받고 Join 전략을 사용 즉 Item, Movie 둘다 Insert 쿼리가 실행된다. */
+
+            em.flush();
+            em.clear();
+
+            Movie findMovie = em.find(Movie.class, movie.getId()); /* JPA가 알아서 Join 해서 select */
+            System.out.println("findMovie : " + findMovie);
+
+            Item findItem = em.find(Item.class, movie.getId());/* 객체지향이니 부모 클래스로 형변환 가능 다만 구현 클래스마다 테이블 전략을 사용하면 Union을 다 해서 찾기 때문에 효율 x */
+
 
             tx.commit();
 
